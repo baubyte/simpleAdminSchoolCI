@@ -2239,5 +2239,9 @@ label {
 .site-min-height {
     min-height: 900px;
 }
-
+.tarea{
+	background: white;
+	padding: 25px;
+	text-align: center;
+}
 

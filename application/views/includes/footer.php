@@ -92,6 +92,19 @@
       	$(document).ready(function() {
       		$('#alumnos').DataTable();
       	});
+	  </script>
+      <script type="text/javascript">
+      	$(".eliminar").click(function clickEliminar() {
+      		var idAlumno = this.id;
+			var res = idAlumno.split("-");
+			var id = res[1];
+			console.log(id); 
+      			$.post("<?php echo base_url() ?>Dashboard/eliminarAlumno", {
+      				idAlumno: id
+      			}).done(function eliminar(data) {
+      				$("#rowalumno-"+id).fadeOut();
+      			});
+      	});
       </script>
   </body>
 </html>

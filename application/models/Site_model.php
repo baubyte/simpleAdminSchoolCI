@@ -84,10 +84,61 @@ class Site_model extends CI_Model
 		$this->db->select("*");
 		/**Seleccionemos la Tabla */
 		$this->db->from("alumnos");
-		$this->db->where("curso",$curso);
-		$this->db->where("deleted",0);
+		$this->db->where("curso", $curso);
+		$this->db->where("deleted", 0);
 		/**Obtenemos los Valores */
 		$query = $this->db->get();
+		/**Camprobamos que haya resultados */
+		if ($query->num_rows() > 0) {
+			return $query->result();
+		} else {
+			return null;
+		}
+	}
+	/**Eliminar Alumno */
+	public function eliminarAlumnoById($id)
+	{
+		$dataDeleted = array(
+			"deleted" => 1
+		);
+		$this->db->where("id", $id);
+		$this->db->update("alumnos", $dataDeleted);
+	}
+	/**Guardar Tareas */
+	public function uploadTarea($data, $archivo = null)
+	{
+		if ($archivo) {
+			$dataTarea = array(
+				'nombre' => $data["nombre"],
+				'descripcion' => $data["descripcion"],
+				'fecha_final' => $data["fecha"],
+				'archivo' => $archivo,
+				'curso' => $data["curso"],
+			);
+		} else {
+			$dataTarea = array(
+				'nombre' => $data["nombre"],
+				'descripcion' => $data["descripcion"],
+				'fecha_final' => $data["fecha"],
+				'curso' => $data["curso"],
+			);
+		}
+		$this->db->insert("tareas", $dataTarea);
+		header('location:' . $_SERVER['HTTP_REFERER']);
+	}
+	/**Obtener las Tareas */
+	public function getTareas($curso)
+	{
+		/**Selecionamos tdos los Campos */
+		$this->db->select("*");
+		/**Seleccionemos la Tabla */
+		$this->db->from("tareas");
+		$this->db->where("curso", $curso);
+		$this->db->where("deleted", 0);
+		$this->db->order_by("fecha_final", "ASC");
+		/**Obtenemos los Valores */
+		$query = $this->db->get();
+		//print_r($this->db->last_query());
 		/**Camprobamos que haya resultados */
 		if ($query->num_rows() > 0) {
 			return $query->result();

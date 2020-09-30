@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 30-09-2020 a las 02:57:00
+-- Tiempo de generación: 30-09-2020 a las 03:29:43
 -- Versión del servidor: 5.7.24
 -- Versión de PHP: 7.2.19
 
@@ -86,6 +86,34 @@ INSERT INTO `profesores` (`id`, `nombres`, `apellidos`, `curso`, `username`, `pa
 (1, 'Martin', 'Pared Baez', 4, 'BAUBYTE', '$2y$10$F95u5C.vTHxO9I7GgJKN/uVh.2u32l96CaFfHPtcz78E6L2sTW7ry', 1, 0),
 (2, 'BAUBYTE', 'BAUBYTE', 3, 'test', '', 1, 0);
 
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tareas`
+--
+
+CREATE TABLE `tareas` (
+  `id` int(11) NOT NULL,
+  `nombre` text NOT NULL,
+  `descripcion` text NOT NULL,
+  `fecha_final` date NOT NULL,
+  `archivo` text NOT NULL,
+  `curso` int(11) NOT NULL,
+  `deleted` tinyint(1) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `tareas`
+--
+
+INSERT INTO `tareas` (`id`, `nombre`, `descripcion`, `fecha_final`, `archivo`, `curso`, `deleted`) VALUES
+(1, 'nombre', 'descripcion', '2020-07-24', '5f1a01e593399865776.jpg', 4, 0),
+(2, 'nombre', 'descripcion', '2020-07-24', '5f1a028415314865776.jpg', 4, 0),
+(3, 'tarea1', 'descripcion tarea1', '2020-07-26', '5f1a0babc58b7wp3237903-wallpaper-the-punisher.jpg', 4, 0),
+(4, 'tarea2', 'descripcion tarea2', '2020-07-28', '', 4, 0),
+(5, 'tarea3', 'descripcion tarea3', '2020-07-31', '', 4, 0),
+(6, 'tarea4', 'descripcion tarea4', '2020-08-01', '5f1a0d542b224887343.jpg', 4, 0);
+
 --
 -- Índices para tablas volcadas
 --
@@ -97,9 +125,21 @@ ALTER TABLE `alumnos`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indices de la tabla `mensajes`
+--
+ALTER TABLE `mensajes`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indices de la tabla `profesores`
 --
 ALTER TABLE `profesores`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `tareas`
+--
+ALTER TABLE `tareas`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -113,10 +153,22 @@ ALTER TABLE `alumnos`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT de la tabla `mensajes`
+--
+ALTER TABLE `mensajes`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `profesores`
 --
 ALTER TABLE `profesores`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT de la tabla `tareas`
+--
+ALTER TABLE `tareas`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

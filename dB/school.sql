@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 17-07-2020 a las 20:13:30
+-- Tiempo de generación: 30-09-2020 a las 02:57:00
 -- Versión del servidor: 5.7.24
 -- Versión de PHP: 7.2.19
 
@@ -20,9 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `school`
 --
-DROP DATABASE IF EXISTS `school`;
-CREATE DATABASE IF NOT EXISTS `school` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-USE `school`;
 
 -- --------------------------------------------------------
 
@@ -30,7 +27,6 @@ USE `school`;
 -- Estructura de tabla para la tabla `alumnos`
 --
 
-DROP TABLE IF EXISTS `alumnos`;
 CREATE TABLE `alumnos` (
   `id` int(11) NOT NULL,
   `nombres` text COLLATE utf8_spanish_ci NOT NULL,
@@ -52,10 +48,25 @@ INSERT INTO `alumnos` (`id`, `nombres`, `apellidos`, `curso`, `username`, `passw
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `mensajes`
+--
+
+CREATE TABLE `mensajes` (
+  `id` int(11) NOT NULL,
+  `texto` text NOT NULL,
+  `id_from` int(11) NOT NULL,
+  `id_to` int(11) NOT NULL,
+  `created_at` date NOT NULL,
+  `is_read` tinyint(1) NOT NULL,
+  `deleted` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `profesores`
 --
 
-DROP TABLE IF EXISTS `profesores`;
 CREATE TABLE `profesores` (
   `id` int(11) NOT NULL,
   `nombres` text COLLATE utf8_spanish_ci NOT NULL,

@@ -71,8 +71,7 @@ class Dashboard extends CI_Controller
 				} else {
 					$this->Site_model->uploadTarea($_POST, $config['file_name']);
 				}
-			}
-			else{
+			} else {
 				$this->Site_model->uploadTarea($_POST);
 			}
 		}
@@ -84,6 +83,27 @@ class Dashboard extends CI_Controller
 		if ($_SESSION['id']) {
 			$data['tareas'] = $this->Site_model->getTareas($_SESSION['curso']);
 			$this->loadViews("misTareas", $data);
+		} else {
+			redirect(base_url() . "dashboard", "location");
+		}
+	}
+	/**Mensajes Enviados */
+	public function mensajes()
+	{
+		
+		if ($_SESSION['id']) {
+			/**Comprobamos que se Ejecuto el POST */
+			if ($_POST) {
+				/**Insertar Mensajes */
+				$this->Site_model->insertMensaje($_POST,$_SESSION['id']);
+			}
+			/**Obtener todos los Usuarios */
+			$data['usuarios'] = $this->Site_model->getUsuarios($_SESSION['tipo'],$_SESSION['curso']);
+			/**Obtenemos el Token */
+			$token =$this->Site_model->getToken($_SESSION['id'],$_SESSION['tipo']);
+			/**Obtenemos Los Mensajes */
+			$data['mensajes']= $this->Site_model->getMensajes($token);
+			$this->loadViews("mensajes",$data);
 		} else {
 			redirect(base_url() . "dashboard", "location");
 		}

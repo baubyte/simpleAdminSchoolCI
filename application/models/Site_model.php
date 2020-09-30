@@ -4,7 +4,7 @@ class Site_model extends CI_Model
 
 	public function loginUser($data)
 	{
-		/**Selecionamos tdos los Campos */
+		/**Seleccionamos todos los Campos */
 		$this->db->select("*");
 		/**Seleccionemos la Tabla */
 		$this->db->from("profesores");
@@ -21,7 +21,7 @@ class Site_model extends CI_Model
 		}
 		/**Probamos si es un Alumno */
 		else {
-			/**Selecionamos tdos los Campos */
+			/**Seleccionamos todos los Campos */
 			$this->db->select("*");
 			/**Seleccionemos la Tabla */
 			$this->db->from("alumnos");
@@ -52,20 +52,20 @@ class Site_model extends CI_Model
 	/**Obtener los Profesores */
 	public function getProfesores()
 	{
-		/**Selecionamos tdos los Campos */
+		/**Seleccionamos todos los Campos */
 		$this->db->select("*");
 		/**Seleccionemos la Tabla */
 		$this->db->from("profesores");
 		/**Obtenemos los Valores */
 		$query = $this->db->get();
-		/**Camprobamos que haya resultados */
+		/**Comprobamos que haya resultados */
 		if ($query->num_rows() > 0) {
 			return $query->result();
 		} else {
 			return null;
 		}
 	}
-	/**Para actulizar los Datos del Profesor */
+	/**Para actualizar los Datos del Profesor */
 	public function updateProfesor()
 	{
 		$dataProfesor = array(
@@ -80,7 +80,7 @@ class Site_model extends CI_Model
 	/**Para obtener los alumnos */
 	public function getAlumnos($curso)
 	{
-		/**Selecionamos tdos los Campos */
+		/**Seleccionamos todos los Campos */
 		$this->db->select("*");
 		/**Seleccionemos la Tabla */
 		$this->db->from("alumnos");
@@ -88,7 +88,7 @@ class Site_model extends CI_Model
 		$this->db->where("deleted", 0);
 		/**Obtenemos los Valores */
 		$query = $this->db->get();
-		/**Camprobamos que haya resultados */
+		/**Comprobamos que haya resultados */
 		if ($query->num_rows() > 0) {
 			return $query->result();
 		} else {
@@ -129,7 +129,7 @@ class Site_model extends CI_Model
 	/**Obtener las Tareas */
 	public function getTareas($curso)
 	{
-		/**Selecionamos tdos los Campos */
+		/**Seleccionamos todos los Campos */
 		$this->db->select("*");
 		/**Seleccionemos la Tabla */
 		$this->db->from("tareas");
@@ -139,7 +139,106 @@ class Site_model extends CI_Model
 		/**Obtenemos los Valores */
 		$query = $this->db->get();
 		//print_r($this->db->last_query());
-		/**Camprobamos que haya resultados */
+		/**Comprobamos que haya resultados */
+		if ($query->num_rows() > 0) {
+			return $query->result();
+		} else {
+			return null;
+		}
+	}
+	/**Obtener Los Usuarios */
+	public function getUsuarios($tipo, $curso)
+	{
+		/**Seleccionamos todos los Campos */
+		$this->db->select("*");
+		/**Comprobamos si es Profesor Seleccionamos la Tabla Alumnos */
+		if ($tipo == "profesor") {
+			$this->db->from("alumnos");
+		}
+		/**Comprobamos si es Alumno Seleccionamos la Tabla Profesores */
+		if ($tipo == "alumno") {
+			$this->db->from("profesor");
+		}
+		$this->db->where("curso", $curso);
+		/**Obtenemos los Valores */
+		$query = $this->db->get();
+		//print_r($this->db->last_query());
+		/**Comprobamos que haya resultados */
+		if ($query->num_rows() > 0) {
+			return $query->result();
+		} else {
+			return null;
+		}
+	}
+	/**Guardar los Mensajes */
+	public function insertMensaje($data, $idUser)
+	{
+		$dataMensaje = array(
+			"texto" => $data['texto'],
+			"id_from" => $idUser,
+			"id_to" => $data['id_to']
+		);
+		/**Insertamos el Mensaje*/
+		$this->db->insert("mensajes", $dataMensaje);
+	}
+	/**Generar Token */
+	public function getToken($id, $tipo)
+	{
+		/**Seleccionamos todos los Campos */
+		$this->db->select("*");
+		$this->db->where("id", $id);
+		/**Comprobamos si es Profesor Seleccionamos la Tabla Alumnos */
+		if ($tipo == "profesor") {
+			$this->db->from("alumnos");
+		}
+		/**Comprobamos si es Alumno Seleccionamos la Tabla Profesores */
+		if ($tipo == "alumno") {
+			$this->db->from("profesor");
+		}
+		/**Obtenemos los Valores */
+		$query = $this->db->get();
+		//print_r($this->db->last_query());
+		/**Comprobamos que haya resultados */
+		if ($query->num_rows() > 0) {
+			$result = $query->result();
+			return $result[0]->token_mensaje;
+		} else {
+			return null;
+		}
+	}
+	public function getMensajes($token)
+	{
+		/**Seleccionamos todos los Campos */
+		$this->db->select("*");
+		$this->db->where("id_to", $token);
+		$this->db->from("mensajes");
+		/**Obtenemos los Valores */
+		$query = $this->db->get();
+		/**Comprobamos que haya resultados */
+		if ($query->num_rows() > 0) {
+			return $query->result();
+		} else {
+			return null;
+		}
+	}
+	/**Obtenemos los Nombres */
+	public function getNombre($id)
+	{
+		/**Seleccionamos todos los Campos Tabla Alumnos */
+		$this->db->select("*");
+		$this->db->from("alumnos");
+		$this->db->where("id", $id);
+		/**Compilamos pero sin ejecutarla */
+		$queryAlumnos = $this->db->get_compiled_select();
+		/**Seleccionamos todos los Campos Tabla Profesores */
+		$this->db->select("*");
+		$this->db->from("profesor");
+		$this->db->where("id", $id);
+		/**Compilamos pero sin ejecutarla */
+		$queryProfesores = $this->db->get_compiled_select();
+		/**Hacemos una Union de las Dos Query  */
+		$query = $this->db->query($queryAlumnos . "UNION" . $queryProfesores);
+		/**Comprobamos que haya resultados */
 		if ($query->num_rows() > 0) {
 			return $query->result();
 		} else {

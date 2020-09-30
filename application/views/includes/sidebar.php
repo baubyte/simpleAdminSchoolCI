@@ -44,6 +44,12 @@
       					<i class="fa fa-book"></i>
       					<span>Mis Tareas</span>
       				</a>
+				  </li>
+				  <li class="sub-menu">
+      				<a href="<?php echo base_url()?>dashboard/mensajes">
+      					<i class="fa fa-book"></i>
+      					<span>Mensajes</span>
+      				</a>
       			</li>
       			<li class="sub-menu">
       				<a href="javascript:;">
